@@ -1,0 +1,86 @@
+﻿<h2>User</h2>
+<p>
+    <a href="#/adduser" class="btn btn-primary">Create new</a>
+</p>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        List user
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group pull-left">
+                    <label>Search</label>
+                    <label>
+                        <input type="text" class="form-control" ng-model="searchText" style="font-weight: normal" />
+                    </label>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group pull-right">
+                    Show
+                    <label>
+                        <select class="form-control" ng-model="itemsPerPage" style="font-weight: normal">
+                            <option ng-value="1">1</option>
+                            <option ng-value="2">2</option>
+                            <option ng-value="5">5</option>
+                            <option ng-value="10">10</option>
+                            <option ng-value="25">25</option>
+                            <option ng-value="50">50</option>
+                        </select>
+                    </label>
+                    Entries
+                </div>
+            </div>
+        </div>
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th ng-click="sortBy('Name')">
+                        Name
+                        <span class="glyphicon" ng-show="sortColumn=='Name'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                    </th>
+                    <th ng-click="sortBy('Email')">
+                        Email
+                        <span class="glyphicon" ng-show="sortColumn=='Email'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                    </th>
+                    <th ng-click="sortBy('Address')">
+                        Address
+                        <span class="glyphicon" ng-show="sortColumn=='Address'" ng-class="{'glyphicon-triangle-top': !reverse, 'glyphicon-triangle-bottom': reverse}"></span>
+                    </th>
+                    <th>#</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="i in users | orderBy: sortColumn: reverse | limitTo: itemsPerPage: (currentPage - 1) * itemsPerPage">
+                    <td>{{i.Name}}</td>
+                    <td>{{i.Email}}</td>
+                    <td>{{i.Address}}</td>
+                    <td>
+                        <a href="#/edituser/{{i.Id}}">Edit</a> |
+                        <a href="" ng-click="deleteUser(i.Id)">Delete</a>
+                    </td>
+                </tr>
+                <tr ng-if="!users || users.length == 0">
+                    <td colspan="4" style="text-align: center">
+                        No user data to display
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="pull-left">
+                    <br />
+                    <pre>Page: {{currentPage}}/{{numPages}}</pre>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="pull-right">
+                    <ul uib-pagination total-items="users.length" items-per-page="itemsPerPage" ng-model="currentPage" max-size="5" boundary-links="true" num-pages="numPages"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
